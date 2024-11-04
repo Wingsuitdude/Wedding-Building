@@ -24,3 +24,12 @@ body {
 .animate-blink {
   animation: blink 1s step-end infinite;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  iframe {
+    animation: fadeIn 2s ease-in;
+  }

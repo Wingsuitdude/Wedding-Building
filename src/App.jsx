@@ -65,24 +65,31 @@ const App = () => {
         </h1>
       </header>
 
-      {/* Content Container - Adjusted padding for mobile */}
+      {/* Content Container */}
       <div className="pt-24 md:pt-32">
-        {/* Hero Section */}
-        <section className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col items-center justify-center text-center px-4 relative">
-          {/* Background Image */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-            style={{
-              backgroundImage: 'url("/backgroundtitle.jpg")'
-            }}
-          >
-            {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/50"></div>
+        {/* Hero Section with YouTube Background */}
+        <section className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
+          {/* Video Background */}
+          <div className="absolute inset-0 w-full h-full z-0">
+            <div className="relative w-full h-full">
+              <iframe
+                className="absolute w-[300%] h-[300%] top-[-100%] left-[-100%]"
+                src="https://www.youtube.com/embed/2TywDd4w-wg?autoplay=1&mute=1&controls=0&loop=1&playlist=2TywDd4w-wg&playsinline=1&rel=0&showinfo=0&modestbranding=1"
+                title="Thailand Wedding Background"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            {/* Dark overlay - adjusted opacity for better visibility */}
+            <div className="absolute inset-0 bg-black/60 z-10"></div>
           </div>
 
-          {/* Content - Mobile optimized text sizes */}
-          <div className="relative z-10">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl text-rose-400 mb-6 md:mb-8">We're getting married!</h2>
+          {/* Content - Increased z-index to ensure visibility */}
+          <div className="relative z-20">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl text-rose-400 mb-6 md:mb-8 drop-shadow-lg">
+              We're getting married!
+            </h2>
             <div className="text-xl sm:text-2xl md:text-3xl font-light mb-6 md:mb-8 text-gray-300">
               Jennifer <Heart className="inline text-rose-500" size={24} /> David
             </div>
