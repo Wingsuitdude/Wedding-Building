@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Cormorant Garamond"', 'serif'],
+      },
       animation: {
         blink: 'blink 1s step-end infinite',
       },

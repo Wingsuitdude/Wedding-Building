@@ -1,15 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 8rem;
+:root {
+  --hero-opacity: 1;
+  --hero-translate: 0;
+  --horizontal-translate: 0;
+  --details-opacity: 0;
+  --details-translate: 100px;
 }
 
 body {
+  @apply bg-gray-900;
   margin: 0;
   overflow-x: hidden;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 8rem;
 }
 
 @keyframes blink {
@@ -24,12 +37,3 @@ body {
 .animate-blink {
   animation: blink 1s step-end infinite;
 }
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  iframe {
-    animation: fadeIn 2s ease-in;
-  }
