@@ -120,21 +120,34 @@ const App = () => {
         </p>
       </div>
       
-      <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
-        <div className="mb-6 w-full">
-          <img 
-            src="/tokyopic.jpg" 
-            alt="Our adventures in Japan" 
-            className="w-full rounded-lg hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-        <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">Our Adventures</h3>
-        <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-          That winter, we embarked on a 3-week adventure to Japan and Thailand. It was during this trip 
-          that Jennifer fell in love with Thailand, the Land of Smiles, just as deeply as David had on 
-          his previous visits.
-        </p>
-      </div>
+      // Replace the Our Adventures card with this updated version:
+<div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
+  <div className="mb-6 w-full relative group">
+    {/* Image (shows by default) */}
+    <img 
+      src="/tokyopic.jpg" 
+      alt="Our adventures in Japan" 
+      className="w-full rounded-lg transition-opacity duration-500 group-hover:opacity-0"
+    />
+    {/* Video (hidden until hover) */}
+    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+      <iframe
+        className="w-full h-full rounded-lg"
+        src="https://www.youtube.com/embed/2TywDd4w-wg?autoplay=0&mute=1&controls=1&loop=1&playlist=2TywDd4w-wg&playsinline=1&rel=0&showinfo=0&modestbranding=1"
+        title="Our Thailand Adventures"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
+  </div>
+  <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">Our Adventures</h3>
+  <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+    That winter, we embarked on a 3-week adventure to Japan and Thailand. It was during this trip 
+    that Jennifer fell in love with Thailand, the Land of Smiles, just as deeply as David had on 
+    his previous visits.
+  </p>
+</div>
 
       <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
         <div className="mb-6 w-full">
