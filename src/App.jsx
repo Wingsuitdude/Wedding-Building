@@ -57,7 +57,7 @@ const App = () => {
 
   return (
     <div className="bg-gray-900 text-gray-100">
-      {/* Fixed Header Title - Mobile Optimized */}
+      {/* Fixed Header Title */}
       <header className="fixed top-0 left-0 right-0 bg-gray-900/90 backdrop-blur-sm z-50 border-b border-rose-900/20">
         <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-rose-500 text-center py-4 md:py-6 px-2">
           <span className="inline-block min-w-[1ch]">{headerText}</span>
@@ -65,8 +65,7 @@ const App = () => {
         </h1>
       </header>
 
-      {/* Content Container */}
-      <div className="pt-24 md:pt-32">
+      <main className="pt-24 md:pt-32">
         {/* Hero Section with YouTube Background */}
         <section className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
           {/* Video Background */}
@@ -74,18 +73,18 @@ const App = () => {
             <div className="relative w-full h-full">
               <iframe
                 className="absolute w-[300%] h-[300%] top-[-100%] left-[-100%]"
-                src="https://www.youtube.com/embed/2TywDd4w-wg?autoplay=1&mute=1&controls=0&loop=1&playlist=2TywDd4w-wg&playsinline=1&rel=0&showinfo=0&modestbranding=1"
-                title="Thailand Wedding Background"
+                src="https://www.youtube.com/embed/fSf3Ls1MbN0?autoplay=1&mute=1&controls=0&loop=1&playlist=fSf3Ls1MbN0&playsinline=1&rel=0&showinfo=0&modestbranding=1"
+        title="Bangkok Aerial Background"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
             </div>
-            {/* Dark overlay - adjusted opacity for better visibility */}
+            {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/60 z-10"></div>
           </div>
 
-          {/* Content - Increased z-index to ensure visibility */}
+          {/* Content */}
           <div className="relative z-20">
             <h2 className="text-2xl sm:text-3xl md:text-4xl text-rose-400 mb-6 md:mb-8 drop-shadow-lg">
               We're getting married!
@@ -101,41 +100,62 @@ const App = () => {
           </div>
         </section>
 
-        {/* Our Story Section - Mobile optimized */}
-        <section className="min-h-screen bg-gray-800 py-12 md:py-20 px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-rose-400 mb-8 md:mb-16">Our Story</h2>
-            <div className="space-y-8 md:space-y-12">
-              <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
-                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">First Meeting</h3>
-                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                  Our love story began with an adrenaline rush in the summer of 2022 in Lompoc, California. 
-                  As a skydiving instructor at Skydive Santa Barbara, David took Jennifer on their very first date.
-                </p>
-              </div>
-              
-              <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
-                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">Our Adventures</h3>
-                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                  That winter, we embarked on a 3-week adventure to Japan and Thailand. It was during this trip 
-                  that Jennifer fell in love with Thailand, the Land of Smiles, just as deeply as David had on 
-                  his previous visits.
-                </p>
-              </div>
+       {/* Our Story Section */}
+<section className="min-h-screen bg-gray-800 py-12 md:py-20 px-4">
+  <div className="max-w-4xl mx-auto"> {/* Increased max width for larger images */}
+    <h2 className="text-3xl md:text-4xl font-bold text-center text-rose-400 mb-8 md:mb-16">Our Story</h2>
+    <div className="space-y-8 md:space-y-12">
+      <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
+        <div className="mb-6 w-full">
+          <img 
+            src="/Skydivepic.jpg" 
+            alt="Our first skydiving date" 
+            className="w-full rounded-lg hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+        <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">First Meeting</h3>
+        <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+          Our love story began with an adrenaline rush in the summer of 2022 in Lompoc, California. 
+          As a skydiving instructor at Skydive Santa Barbara, David took Jennifer on their very first date.
+        </p>
+      </div>
+      
+      <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
+        <div className="mb-6 w-full">
+          <img 
+            src="/tokyopic.jpg" 
+            alt="Our adventures in Japan" 
+            className="w-full rounded-lg hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+        <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">Our Adventures</h3>
+        <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+          That winter, we embarked on a 3-week adventure to Japan and Thailand. It was during this trip 
+          that Jennifer fell in love with Thailand, the Land of Smiles, just as deeply as David had on 
+          his previous visits.
+        </p>
+      </div>
 
-              <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
-                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">The Proposal</h3>
-                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                  I proposed at our favorite spot in Thailand - our Thai best friends' private beach bar, 
-                  where we've shared countless sunsets. With our toes in the sand and surrounded by our 
-                  Thai family, she said yes and made me the happiest man alive.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+      <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
+        <div className="mb-6 w-full">
+          <img 
+            src="/proposalpic.png" 
+            alt="The proposal at our favorite beach" 
+            className="w-full rounded-lg hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+        <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">The Proposal</h3>
+        <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+          I proposed at our favorite spot in Thailand - our Thai best friends' private beach bar, 
+          where we've shared countless sunsets. With our toes in the sand and surrounded by our 
+          Thai family, she said yes and made me the happiest man alive.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        {/* Wedding Details Section - Mobile optimized */}
+        {/* Wedding Details Section */}
         <section className="min-h-screen py-12 md:py-20 px-4 bg-gray-900">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center text-rose-400 mb-8 md:mb-16">Details</h2>
@@ -214,7 +234,7 @@ const App = () => {
               </div>
             </div>
 
-            {/* Contact Section - Mobile optimized */}
+            {/* Contact Section */}
             <div className="mt-12 md:mt-20 text-center">
               <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-4 md:mb-6">Contact Us</h3>
               <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8">
@@ -228,7 +248,7 @@ const App = () => {
             </div>
           </div>
         </section>
-      </div>
+      </main>
     </div>
   );
 };
