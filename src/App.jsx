@@ -1,222 +1,229 @@
-import React, { useState, useEffect } from 'react';
-import { CalendarDays, Plane, Hotel, MapPin, Info, Camera, Menu, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Heart, Plane, FileCheck, Home, Mail, Phone, Thermometer, Wallet, Smartphone } from 'lucide-react';
 
-const WeddingWebsite = () => {
-  const weddingDate = new Date("2025-04-20T00:00:00Z").getTime();
-  const [countdown, setCountdown] = useState("");
-  const [activeTab, setActiveTab] = useState("story");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const App = () => {
+  const [timeLeft, setTimeLeft] = useState('');
+  const [headerText, setHeaderText] = useState('');
+  const englishText = 'Our Thailand Wedding';
+  const thaiText = 'งานแต่งงานของเราที่เมืองไทย';
+  const [isTyping, setIsTyping] = useState(true);
+  const [isThai, setIsThai] = useState(false);
 
+  // Typing animation effect
   useEffect(() => {
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const distance = weddingDate - now;
+    const currentText = isThai ? thaiText : englishText;
+    let currentIndex = 0;
+    
+    if (isTyping) {
+      const typingInterval = setInterval(() => {
+        if (currentIndex < currentText.length) {
+          setHeaderText(prev => currentText.slice(0, currentIndex + 1));
+          currentIndex++;
+        } else {
+          setIsTyping(false);
+          setTimeout(() => {
+            setIsTyping(true);
+            setIsThai(!isThai);
+          }, 1000);
+          clearInterval(typingInterval);
+        }
+      }, 150);
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      return () => clearInterval(typingInterval);
+    }
+  }, [isTyping, isThai]);
 
-      setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+  // Countdown timer
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const weddingDate = new Date('2025-04-20T17:00:00+07:00');
+      const now = new Date();
+      const difference = weddingDate - now;
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
     };
 
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(timer);
   }, []);
 
-  const TabButton = ({ value, icon, children, onClick }) => (
-    <button
-      onClick={() => {
-        setActiveTab(value);
-        onClick?.();
-      }}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors w-full md:w-auto
-        ${activeTab === value 
-          ? 'bg-pink-500 text-white' 
-          : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
-    >
-      {icon}
-      {children}
-    </button>
-  );
-
-  const TabPanel = ({ value, children }) => (
-    <div className={`${activeTab === value ? 'block' : 'hidden'}`}>
-      {children}
-    </div>
-  );
-
-  const navigation = [
-    { value: "story", label: "Our Story", icon: <Camera className="h-4 w-4" /> },
-    { value: "details", label: "Details", icon: <CalendarDays className="h-4 w-4" /> },
-    { value: "travel", label: "Travel", icon: <Plane className="h-4 w-4" /> },
-    { value: "activities", label: "Activities", icon: <MapPin className="h-4 w-4" /> },
-    { value: "info", label: "Info", icon: <Info className="h-4 w-4" /> },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100">
-      {/* Mobile Menu Button */}
-      <div className="md:hidden fixed top-4 right-4 z-50">
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 bg-gray-800 rounded-lg"
-        >
-          {isMobileMenuOpen ? (
-            <X className="h-6 w-6 text-white" />
-          ) : (
-            <Menu className="h-6 w-6 text-white" />
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <div className={`
-        fixed inset-0 bg-gray-900/95 z-40 transform transition-transform duration-300 ease-in-out
-        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:hidden
-      `}>
-        <div className="flex flex-col items-stretch p-8 pt-16 space-y-4">
-          {navigation.map((item) => (
-            <TabButton
-              key={item.value}
-              value={item.value}
-              icon={item.icon}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {item.label}
-            </TabButton>
-          ))}
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <header className="text-center py-16 px-4">
-        <h1 className="text-4xl md:text-7xl font-bold text-pink-300 mb-4">
-          Jennifer 💕 David
+    <div className="bg-gray-900 text-gray-100">
+      {/* Fixed Header Title - Mobile Optimized */}
+      <header className="fixed top-0 left-0 right-0 bg-gray-900/90 backdrop-blur-sm z-50 border-b border-rose-900/20">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-rose-500 text-center py-4 md:py-6 px-2">
+          <span className="inline-block min-w-[1ch]">{headerText}</span>
+          <span className="animate-blink text-rose-400">|</span>
         </h1>
-        <p className="text-2xl md:text-3xl text-yellow-300 mb-2">Are Getting Married!</p>
-        <p className="text-xl md:text-2xl text-pink-200">4/20/25 - Bangkok, Thailand</p>
-        <div className="mt-8 text-2xl md:text-4xl font-mono bg-gray-800 inline-block px-4 md:px-6 py-2 md:py-3 rounded-lg">
-          {countdown}
-        </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 pb-16">
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex flex-wrap justify-center gap-2 mb-8">
-          {navigation.map((item) => (
-            <TabButton
-              key={item.value}
-              value={item.value}
-              icon={item.icon}
-            >
-              {item.label}
-            </TabButton>
-          ))}
-        </div>
+      {/* Content Container - Adjusted padding for mobile */}
+      <div className="pt-24 md:pt-32">
+        {/* Hero Section */}
+        <section className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col items-center justify-center text-center px-4 relative">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+            style={{
+              backgroundImage: 'url("/backgroundtitle.jpg")'
+            }}
+          >
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
 
-        {/* Content Panels */}
-        <div className="bg-gray-800/50 rounded-lg p-4 md:p-6">
-          <TabPanel value="story">
-            <h2 className="text-2xl md:text-3xl font-bold text-pink-300 mb-4">Our Story</h2>
-            <div className="space-y-4 text-sm md:text-base">
-              <p className="text-gray-200">
-                Our love story began with an adrenaline rush in the summer of 2022 in Lompoc, California. As a skydiving instructor at Skydive Santa Barbara, David took Jennifer, a Central Coast born college girl, on a tandem skydive for their very first date. It was a leap of faith that led to love, with David falling head over heels for Jennifer right from the start.
-              </p>
-              <p className="text-gray-200">
-                That winter, we embarked on a 3-week adventure to Japan and Thailand. It was during this trip that Jennifer fell in love with Thailand, the Land of Smiles, just as deeply as David had on his previous visits. The following year, we returned to Thailand for an extended 2-month stay, further cementing our connection to this beautiful country.
-              </p>
+          {/* Content - Mobile optimized text sizes */}
+          <div className="relative z-10">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl text-rose-400 mb-6 md:mb-8">We're getting married!</h2>
+            <div className="text-xl sm:text-2xl md:text-3xl font-light mb-6 md:mb-8 text-gray-300">
+              Jennifer <Heart className="inline text-rose-500" size={24} /> David
             </div>
-          </TabPanel>
+            <div className="text-xl md:text-2xl text-rose-400 mb-4">4 · 20 · 25</div>
+            <div className="text-base md:text-xl font-mono text-rose-300">{timeLeft}</div>
+            <div className="mt-8 md:mt-12 animate-bounce">
+              <span className="text-rose-400 text-sm md:text-base">Scroll to explore our journey</span>
+            </div>
+          </div>
+        </section>
 
-          <TabPanel value="details">
-            <h2 className="text-2xl md:text-3xl font-bold text-pink-300 mb-4">Wedding Details</h2>
-            <div className="space-y-4 text-sm md:text-base">
-              <p className="text-lg md:text-xl"><strong>Date:</strong> April 20, 2025 (4-20-25)</p>
-              <p className="text-lg md:text-xl"><strong>Location:</strong> Bang Krachao, the "Green Lung" of Bangkok</p>
+        {/* Our Story Section - Mobile optimized */}
+        <section className="min-h-screen bg-gray-800 py-12 md:py-20 px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-rose-400 mb-8 md:mb-16">Our Story</h2>
+            <div className="space-y-8 md:space-y-12">
+              <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
+                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">First Meeting</h3>
+                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+                  Our love story began with an adrenaline rush in the summer of 2022 in Lompoc, California. 
+                  As a skydiving instructor at Skydive Santa Barbara, David took Jennifer on their very first date.
+                </p>
+              </div>
               
-              <h3 className="text-xl md:text-2xl font-bold text-yellow-300 mt-6">Schedule</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li>4:00 PM: Pre-ceremony drinks and Thai food at the villa</li>
-                <li>6:00 PM: Ceremony at Sri Nakhon Khuean Khan Park And Botanical Garden</li>
-                <li>Following the ceremony: Reception at the villa</li>
-              </ul>
+              <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
+                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">Our Adventures</h3>
+                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+                  That winter, we embarked on a 3-week adventure to Japan and Thailand. It was during this trip 
+                  that Jennifer fell in love with Thailand, the Land of Smiles, just as deeply as David had on 
+                  his previous visits.
+                </p>
+              </div>
+
+              <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
+                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-3 md:mb-4">The Proposal</h3>
+                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+                  I proposed at our favorite spot in Thailand - our Thai best friends' private beach bar, 
+                  where we've shared countless sunsets. With our toes in the sand and surrounded by our 
+                  Thai family, she said yes and made me the happiest man alive.
+                </p>
+              </div>
             </div>
-          </TabPanel>
+          </div>
+        </section>
 
-          <TabPanel value="travel">
-            <h2 className="text-2xl md:text-3xl font-bold text-pink-300 mb-4">Travel Information</h2>
-            <div className="space-y-6 text-sm md:text-base">
-              <ul className="space-y-4">
-                <li><strong>Flights:</strong> Book round-trip to Bangkok</li>
-                <li><strong>Visa:</strong> eVISA required BEFORE arrival</li>
-                <li><strong>Passport:</strong> Must be valid for 6+ months beyond stay</li>
-                <li><strong>Recommended Arrival:</strong> April 9th</li>
-              </ul>
-
-              <h3 className="text-xl md:text-2xl font-bold text-yellow-300 mt-6">Accommodation</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li>Limited villa space available - contact us to inquire</li>
-                <li>Recommended areas: Silom, Sukhumvit, or Riverside</li>
-                <li>Hotel recommendations coming soon</li>
-              </ul>
-            </div>
-          </TabPanel>
-
-          <TabPanel value="activities">
-            <h2 className="text-2xl md:text-3xl font-bold text-pink-300 mb-4">Pre-Wedding Activities</h2>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
-              <li className="bg-gray-700/50 p-4 rounded-lg">Explore Bangkok city</li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">Experience the Songkran water festival</li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">Visit ancient Ayutthaya</li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">Explore Lopburi (Monkey Town)</li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">Shop at Asia's best malls</li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">Experience Khao San Road</li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">Visit stunning temples</li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">Enjoy rooftop bars</li>
-            </ul>
-          </TabPanel>
-
-          <TabPanel value="info">
-            <div className="space-y-8 text-sm md:text-base">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-yellow-300 mb-4">Practical Tips</h3>
-                  <ul className="space-y-2">
-                    <li><strong>Weather:</strong> Hot and humid (30-35°C/86-95°F)</li>
-                    <li><strong>Money:</strong> Bring cash for exchange</li>
-                    <li><strong>Communication:</strong> Consider eSIM or local SIM</li>
-                    <li><strong>Insurance:</strong> Travel insurance recommended</li>
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-yellow-300 mb-4">Cultural Tips</h3>
-                  <ul className="space-y-2">
-                    <li>Dress modestly at temples</li>
-                    <li>Remove shoes when required</li>
-                    <li>Respect the Royal Family</li>
-                    <li>No tipping necessary</li>
-                  </ul>
+        {/* Wedding Details Section - Mobile optimized */}
+        <section className="min-h-screen py-12 md:py-20 px-4 bg-gray-900">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-rose-400 mb-8 md:mb-16">Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              <div className="bg-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-rose-900/20">
+                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-4 md:mb-6">Ceremony</h3>
+                <div className="space-y-3 md:space-y-4 text-gray-300">
+                  <p className="flex items-center gap-2">
+                    Date: April 20, 2025
+                  </p>
+                  <p className="flex items-center gap-2">
+                    Time: 5:00 PM
+                  </p>
+                  <p className="flex items-center gap-2">
+                    Location: The Green Lung, Bangkok
+                  </p>
+                  <p className="flex items-center gap-2">
+                    Dress Code: Casual
+                  </p>
                 </div>
               </div>
 
-              <div className="mt-8">
-                <h3 className="text-xl md:text-2xl font-bold text-yellow-300 mb-4">Contact Us</h3>
-                <p>If you have any questions, please don't hesitate to reach out:</p>
-                <p className="mt-2">Email: [Your email address]</p>
-                <p>Phone: [Your phone number]</p>
+              <div className="bg-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-rose-900/20">
+                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-4 md:mb-6">Travel Info</h3>
+                <div className="space-y-3 md:space-y-4 text-gray-300">
+                  <p className="flex items-center gap-2">
+                    <Plane className="text-rose-400" size={20} />
+                    Suvarnabhumi Airport (BKK)
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <FileCheck className="text-rose-400" size={20} />
+                    eVISA required before arrival
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <FileCheck className="text-rose-400" size={20} />
+                    Passport valid for 6+ months
+                  </p>
+                  <p className="ml-7">Arrive by April 18th</p>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-rose-900/20">
+                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-4 md:mb-6">Accommodation</h3>
+                <div className="space-y-3 md:space-y-4 text-gray-300">
+                  <p className="flex items-center gap-2">
+                    <Home className="text-rose-400" size={20} />
+                    Limited villa space available
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Home className="text-rose-400" size={20} />
+                    Areas: Silom, Sukhumvit
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Home className="text-rose-400" size={20} />
+                    Hotels: Coming Soon
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-rose-900/20">
+                <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-4 md:mb-6">Thailand Tips</h3>
+                <div className="space-y-3 md:space-y-4 text-gray-300">
+                  <p className="flex items-center gap-2">
+                    <Thermometer className="text-rose-400" size={20} />
+                    Hot and humid (30-35°C)
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Wallet className="text-rose-400" size={20} />
+                    Bring cash for exchange
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Smartphone className="text-rose-400" size={20} />
+                    Consider eSIM or local SIM
+                  </p>
+                </div>
               </div>
             </div>
-          </TabPanel>
-        </div>
-      </main>
+
+            {/* Contact Section - Mobile optimized */}
+            <div className="mt-12 md:mt-20 text-center">
+              <h3 className="text-xl md:text-2xl font-bold text-rose-400 mb-4 md:mb-6">Contact Us</h3>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8">
+                <a href="mailto:[Your email]" className="flex items-center text-rose-400 hover:text-rose-300 transition-colors">
+                  <Mail className="mr-2" size={20} /> Email us
+                </a>
+                <a href="tel:[Your phone]" className="flex items-center text-rose-400 hover:text-rose-300 transition-colors">
+                  <Phone className="mr-2" size={20} /> Call us
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
 
-export default WeddingWebsite;
+export default App;
