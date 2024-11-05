@@ -5,6 +5,7 @@ const App = () => {
   const [timeLeft, setTimeLeft] = useState('');
   const [headerText, setHeaderText] = useState('');
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [activeVideo, setActiveVideo] = useState(null); // 'adventures' or 'bangkok' or null
   const englishText = 'Our Thailand Wedding';
   const thaiText = 'งานแต่งงานของเราที่เมืองไทย';
   const [isTyping, setIsTyping] = useState(true);
@@ -56,6 +57,14 @@ const App = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Handle video activation
+  const handleVideoPlay = (videoId) => {
+    setActiveVideo(videoId);
+    if (videoId === 'adventures') {
+      setIsVideoPlaying(true);
+    }
+  };
+
   return (
     <div className="bg-gray-900 text-gray-100">
       {/* Fixed Header Title */}
@@ -74,7 +83,7 @@ const App = () => {
             <div className="relative w-full h-full">
               <iframe
                 className="absolute w-[300%] h-[300%] top-[-100%] left-[-100%]"
-                 src="https://www.youtube.com/embed/fSf3Ls1MbN0?autoplay=1&mute=1&controls=0&loop=1&playlist=fSf3Ls1MbN0&playsinline=1&rel=0&showinfo=0&modestbranding=1"
+                src="https://www.youtube.com/embed/fSf3Ls1MbN0?autoplay=1&mute=1&controls=0&loop=1&playlist=fSf3Ls1MbN0&playsinline=1&rel=0&showinfo=0&modestbranding=1"
                 title="Bangkok Aerial Background"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -126,11 +135,10 @@ const App = () => {
               <div className="bg-gray-900/50 p-6 md:p-8 rounded-xl border border-rose-900/20">
                 <div 
                   className="mb-6 w-full relative cursor-pointer" 
-                  onClick={() => setIsVideoPlaying(true)}
                 >
                   {/* Image and Play Button */}
                   {!isVideoPlaying && (
-                    <>
+                    <div onClick={() => handleVideoPlay('adventures')}>
                       <img 
                         src="/tokyopic.jpg" 
                         alt="Our adventures in Japan" 
@@ -159,7 +167,7 @@ const App = () => {
                           </svg>
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
                   
                   {/* Video */}
@@ -167,7 +175,7 @@ const App = () => {
                     <div className="w-full rounded-lg overflow-hidden aspect-video">
                       <iframe
                         className="w-full h-full rounded-lg"
-                        src="https://www.youtube.com/embed/2TywDd4w-wg?autoplay=1&mute=0&controls=1&loop=1&playlist=2TywDd4w-wg&playsinline=1&rel=0&showinfo=0&modestbranding=1"
+                        src={`https://www.youtube.com/embed/2TywDd4w-wg?autoplay=${activeVideo === 'adventures' ? '1' : '0'}&mute=0&controls=1&loop=1&playlist=2TywDd4w-wg&playsinline=1&rel=0&showinfo=0&modestbranding=1`}
                         title="Our Thailand Adventures"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -206,6 +214,23 @@ const App = () => {
 
         {/* Wedding Details Section */}
         <section className="min-h-screen py-12 md:py-20 px-4 bg-gray-900 relative">
+          {/* Bangkok Video Section */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="relative w-full rounded-xl overflow-hidden aspect-video mb-8 md:mb-12 border border-rose-900/20">
+              <iframe
+                className="absolute w-full h-full top-0 left-0"
+                src={`https://www.youtube.com/embed/NFw-WizIt50?start=42&autoplay=${activeVideo === 'bangkok' ? '1' : '0'}&mute=0&controls=1&loop=1&playlist=NFw-WizIt50&playsinline=1&rel=0&showinfo=0&modestbranding=1`}
+                title="Bangkok Travel Guide"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                onPlay={() => handleVideoPlay('bangkok')}
+              ></iframe>
+            </div>
+            <p className="text-lg md:text-xl text-center font-semibold text-gray-300 mb-12">
+            We're thrilled to welcome you to the vibrant city of Bangkok for our special celebration! This guide will help you navigate your arrival and first days in Thailand's magnificent capital.
+            </p>
+          </div>
          
           {/* Content */}
           <div className="max-w-4xl mx-auto relative z-20">
@@ -230,8 +255,8 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Travel Info */}
-              <div className="bg-gray-900/50 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-lg border border-rose-900/20">
+            {/* Travel Info */}
+            <div className="bg-gray-900/50 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-lg border border-rose-900/20">
                 <h3 className="text-2xl md:text-3xl font-bold text-rose-400 mb-4 md:mb-6">Travel Info</h3>
                 <div className="space-y-3 md:space-y-4 text-gray-300">
                   <p className="text-lg md:text-xl font-semibold flex items-center gap-2">
@@ -291,16 +316,30 @@ const App = () => {
               </div>
             </div>
 
-            {/* Contact Section */}
-            <div className="mt-12 md:mt-20 text-center">
-              <h3 className="text-2xl md:text-3xl font-bold text-rose-400 mb-4 md:mb-6">Contact Us</h3>
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8">
-                <a href="mailto:[Your email]" className="text-lg md:text-xl font-semibold flex items-center text-rose-400 hover:text-rose-300 transition-colors">
-                  <Mail className="mr-2" size={20} /> Email us
-                </a>
-                <a href="tel:[Your phone]" className="text-lg md:text-xl font-semibold flex items-center text-rose-400 hover:text-rose-300 transition-colors">
-                  <Phone className="mr-2" size={20} /> Call us
-                </a>
+      {/* Ultimate Bangkok Guide Section */}
+      <div className="mt-12 md:mt-20">
+              <h3 className="text-2xl md:text-3xl font-bold text-rose-400 mb-6 text-center">Ultimate Bangkok Travel Guide</h3>
+              <div className="w-full aspect-video rounded-xl overflow-hidden border border-rose-900/20 shadow-lg">
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/VlOvCuMsjZw?start=35&autoplay=${activeVideo === 'guide' ? '1' : '0'}&mute=0&controls=1&loop=0&playsinline=1&rel=0&showinfo=0&modestbranding=1`}
+                  title="Ultimate Bangkok Travel Guide"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  onPlay={() => handleVideoPlay('guide')}
+                ></iframe>
+              </div>
+              <div className="mt-6 space-y-3 text-center">
+                <p className="text-lg md:text-xl font-semibold text-gray-300">
+                  A comprehensive 3-hour guide covering everything you need to know about Bangkok! 🌟
+                </p>
+                <p className="text-base md:text-lg text-gray-400">
+                  Explore the city's best attractions, hidden gems, local customs, food spots, and travel tips. This in-depth guide covers many of the places and activities we'll be experiencing together during the wedding week! 
+                </p>
+                <p className="text-sm md:text-base text-rose-400 font-semibold">
+                  Pro tip: Use the video chapters to jump to specific topics that interest you!
+                </p>
               </div>
             </div>
           </div>
